@@ -136,7 +136,6 @@
 
   Suggest.prototype.keyupListen = function(e) {
     var code = e.keyCode;
-    var el = this.input;
     e.stopPropagation();
     e.preventDefault();
     switch(code) {
