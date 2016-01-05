@@ -120,8 +120,8 @@
   };
 
   Suggest.prototype.resizeListen = function() {
-    var r = this.result;
-    this.method.close(r);
+    var result = this.result;
+    this.method.close(result);
   };
 
   Suggest.prototype.keydownListen = function(e) {
