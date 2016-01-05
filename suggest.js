@@ -1,6 +1,6 @@
 // suggest.js
 // email autocomplete effects
-// no use MVC framework...
+// not use MVC framework...
 
 (function(global) {
 
