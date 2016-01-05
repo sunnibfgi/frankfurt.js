@@ -85,7 +85,6 @@
     var result = this.result;
     var el = this.input;
     var item = result.querySelector('.selected');
-    var text = '';
     if(!item || item === result.lastChild) {
       result.lastChild.classList.remove('selected');
       result.firstChild.classList.add('selected');
