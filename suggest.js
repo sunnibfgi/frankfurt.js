@@ -6,11 +6,11 @@
 
   'use strict';
 
-  function Method() {}
+  function Assist() {}
 
-  Method.prototype = {
+  Assist.prototype = {
 
-    constructor: Method,
+    constructor: Assist,
 
     html: function(el, str) {
       if(1 in arguments) {
@@ -48,8 +48,9 @@
     this.result = this.el.querySelector(this.opts.result);
     var bundle = this.input.getAttribute('data-bundle');
     this.opts.list = this.opts.list || (bundle && JSON.parse(bundle));
-    this.method = new Method();
+    this.method = Object.create(Assist.prototype);
     this.rendered = false;
+    this.listener();
   }
 
   Suggest.prototype.search = function(e) {
@@ -136,6 +137,7 @@
 
   Suggest.prototype.keyupListen = function(e) {
     var code = e.keyCode;
+    var el = this.el;
     e.stopPropagation();
     e.preventDefault();
     switch(code) {
@@ -155,27 +157,35 @@
     }
   };
 
-  Suggest.prototype.render = function(val) {
-    var at = val.indexOf('@');
-    var method = this.method;
-    var atBefore = val.substring(0, at);
-    var atAfter = val.substring(at);
+  Suggest.prototype.htmlStringHandle = function(o) {
     var html = '';
-    if(~~at && /^[a-zA-Z\d-_]+?$/.test(atBefore)) {
-      [].forEach.call(this.opts.list, function(el) {
-        if(!el.indexOf(atAfter)) {
-          html += '<li data-value="' + atBefore + el + '">' + method.ellipsis(atBefore) + el + '<\/li>';
+    var method = this.method;
+    if(~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
+      [].forEach.call(this.opts.list.sort(), function(el) {
+        if(!el.indexOf(o.atAfter)) {
+          html += '<li data-value="' + o.atBefore + el + '">' + method.ellipsis(o.atBefore) + el + '<\/li>';
         }
       });
-      this.method.open(this.result);
-      this.method.html(this.result, html);
+      method.open(this.result);
+      method.html(this.result, html);
       this.rendered = true;
     }
     else {
-      this.method.close(this.result);
-      this.method.html(this.result, '');
+      method.close(this.result);
+      method.html(this.result, '');
       this.rendered = false;
     }
+  };
+
+  Suggest.prototype.render = function(val) {
+    var at = val.indexOf('@');
+    var atBefore = val.substring(0, at);
+    var atAfter = val.substring(at);
+    this.htmlStringHandle({
+      at: at,
+      atBefore: atBefore,
+      atAfter: atAfter
+    });
   };
 
   Suggest.prototype.listener = function() {
