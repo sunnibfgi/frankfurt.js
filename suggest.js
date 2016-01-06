@@ -127,8 +127,14 @@
     var code = e.keyCode;
     var el = this.input;
     e.stopPropagation();
-    if(9 === code) {
-      this.method.close(this.result);
+    switch(code) {
+      case 9:
+        this.method.close(this.result);
+        break;
+      case 13:
+        this.method.close(this.result);
+        el.blur();
+        break;
     }
   };
 
@@ -138,7 +144,6 @@
     e.stopPropagation();
     e.preventDefault();
     switch(code) {
-      case 13:
       case 27:
         this.method.close(this.result);
         el.blur();
