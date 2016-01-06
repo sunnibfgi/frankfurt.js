@@ -127,10 +127,8 @@
     var code = e.keyCode;
     var el = this.input;
     e.stopPropagation();
-    switch(code) {
-      case 9:
-        this.method.close(this.result);
-        break;
+    if(9 === code) {
+      this.method.close(this.result);
     }
   };
 
