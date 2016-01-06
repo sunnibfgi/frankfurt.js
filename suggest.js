@@ -3,7 +3,6 @@
 // not use MVC framework...
 
 (function(global) {
-
   'use strict';
 
   function Assist() {}
@@ -47,7 +46,7 @@
     this.input = this.el.querySelector(this.opts.input);
     this.result = this.el.querySelector(this.opts.result);
     var bundle = this.input.getAttribute('data-bundle');
-    this.opts.list = this.opts.list || (bundle && JSON.parse(bundle));
+    this.list = this.opts.list || (bundle && JSON.parse(bundle));
     this.method = Object.create(Assist.prototype);
     this.rendered = false;
     this.listener();
@@ -161,7 +160,7 @@
     var html = '';
     var method = this.method;
     if(~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
-      [].forEach.call(this.opts.list.sort(), function(el) {
+      [].forEach.call(this.list.sort(), function(el) {
         if(!el.indexOf(o.atAfter)) {
           html += '<li data-value="' + o.atBefore + el + '">' + method.ellipsis(o.atBefore) + el + '<\/li>';
         }
