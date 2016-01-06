@@ -105,7 +105,7 @@
     var target = e.target;
     var item = result.querySelector('.selected');
     if(this.rendered) {
-      if(el !== document.activeElement) {
+      if(el !== (target || document.activeElement)) {
         this.method.close(result);
       }
       else {
@@ -186,10 +186,12 @@
   };
 
   Suggest.prototype.listener = function() {
-    var el = this.input;
+    var el = this.input,
+      body = document.body;
     el.addEventListener('keydown', this.keydownListen.bind(this), false);
     el.addEventListener('keyup', this.keyupListen.bind(this), false);
-    document.body.addEventListener('click', this.clickListen.bind(this), false);
+    body.addEventListener('click', this.clickListen.bind(this), false);
+    body.addEventListener('touchstart', this.clickListen.bind(this), false);
     window.addEventListener('resize', this.resizeListen.bind(this), false);
   };
 
