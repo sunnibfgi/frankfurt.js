@@ -202,6 +202,6 @@
     window.addEventListener('resize', this.resizeListen.bind(this), false);
   };
 
-  window.Suggest = Suggest;
+  global.Suggest = Suggest;
 
 })(window);
