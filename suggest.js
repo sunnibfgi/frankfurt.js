@@ -104,18 +104,20 @@
     var el = this.input;
     var target = e.target;
     var item = result.querySelector('.selected');
-    if(this.rendered) {
-      if(el !== (target || document.activeElement)) {
-        this.method.close(result);
-      }
-      else {
-        this.method.open(result);
-      }
-      if(result.contains(target)) {
-        el.value = this.method.attr(target, 'data-value');
-        item && item.classList.remove('selected');
-      }
+    if(!this.rendered) {
+      return false;
     }
+    if(el !== (target || document.activeElement)) {
+      this.method.close(result);
+    }
+    else {
+      this.method.open(result);
+    }
+    if(result.contains(target)) {
+      el.value = this.method.attr(target, 'data-value');
+      item && item.classList.remove('selected');
+    }
+
   };
 
   Suggest.prototype.resizeListen = function() {
