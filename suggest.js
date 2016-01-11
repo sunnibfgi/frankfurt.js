@@ -1,7 +1,6 @@
 // suggest.js
 // email autocomplete effects
 // not use MVC framework...
-
 (function(global) {
   'use strict';
 
@@ -12,14 +11,14 @@
     constructor: Assist,
 
     html: function(el, str) {
-      if(1 in arguments) {
+      if (1 in arguments) {
         return el.innerHTML = str;
       }
       return el.innerHTML;
     },
 
     attr: function(el, key, value) {
-      if(value === undefined) {
+      if (value === undefined) {
         return el.getAttribute(key);
       }
       return el.setAttribute(key, value);
@@ -55,7 +54,7 @@
   Suggest.prototype.search = function(e) {
     var el = this.input;
     var val = el.value;
-    if(!val.length) {
+    if (!val.length) {
       this.method.close(this.result);
       this.method.html(this.result, '');
     }
@@ -68,7 +67,7 @@
     var result = this.result;
     var item = result.querySelector('.selected');
     var el = this.input;
-    if(!item || item === result.firstChild) {
+    if (!item || item === result.firstChild) {
       result.firstChild.classList.remove('selected');
       result.lastChild.classList.add('selected');
       el.value = this.method.attr(result.lastChild, 'data-value');
@@ -85,7 +84,7 @@
     var result = this.result;
     var el = this.input;
     var item = result.querySelector('.selected');
-    if(!item || item === result.lastChild) {
+    if (!item || item === result.lastChild) {
       result.lastChild.classList.remove('selected');
       result.firstChild.classList.add('selected');
       el.value = this.method.attr(result.firstChild, 'data-value');
@@ -104,16 +103,16 @@
     var el = this.input;
     var target = e.target;
     var item = result.querySelector('.selected');
-    if(!this.rendered) {
+    if (!this.rendered) {
       return false;
     }
-    if(el !== (target || document.activeElement)) {
+    if (el !== (target || document.activeElement)) {
       this.method.close(result);
     }
     else {
       this.method.open(result);
     }
-    if(result.contains(target)) {
+    if (result.contains(target)) {
       el.value = this.method.attr(target, 'data-value');
       item && item.classList.remove('selected');
     }
@@ -128,13 +127,15 @@
   Suggest.prototype.keydownListen = function(e) {
     var code = e.keyCode;
     var el = this.input;
+    var selected = this.result.querySelector('.selected');
     e.stopPropagation();
-    switch(code) {
+    switch (code) {
       case 9:
         this.method.close(this.result);
         break;
       case 13:
         this.method.close(this.result);
+        selected.classList.remove('selected');
         el.blur();
         break;
     }
@@ -143,9 +144,10 @@
   Suggest.prototype.keyupListen = function(e) {
     var code = e.keyCode;
     var el = this.el;
+
     e.stopPropagation();
     e.preventDefault();
-    switch(code) {
+    switch (code) {
       case 27:
         this.method.close(this.result);
         el.blur();
@@ -164,9 +166,9 @@
   Suggest.prototype.htmlStringHandle = function(o) {
     var html = '';
     var method = this.method;
-    if(~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
+    if (~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
       [].forEach.call(this.list.sort(), function(el) {
-        if(!el.indexOf(o.atAfter)) {
+        if (!el.indexOf(o.atAfter)) {
           html += '<li data-value="' + o.atBefore + el + '">' + method.ellipsis(o.atBefore) + el + '<\/li>';
         }
       });
