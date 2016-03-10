@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>script test</title>
+  <meta name="viewport" content="width=device-width,user-scalable=no" />
+  <style>
+      * { margin:0; padding:0} 
+      body { font-size:100%; font-family:verdana, sans-seif}
+      .hide { display: none!important}
+      #r { width: 200px}
+      #r li { line-height: 30px}
+      .selected { background: #eee}
+  </style>
+</head>
+
+<body>
+<div id="email-ct">
+<input type="text" id="email" autocomplete="off" style="padding:5px">
+    <ul id="r" class="hide"></ul>   
+</div>
+<div id="email-ct1">
+<input type="text" id="email" autocomplete="off" style="padding:5px">
+    <ul id="r" class="hide"></ul>   
+</div>
+<script src="suggest.js"></script>
+<script>
+
+new Suggest(document.getElementById('email-ct'), {
+    list:["@opera.com","@firefox.com", "@opera.net", "@firefox.net", "@chrome.net", "@chrome.com","@safari.net","@safari.com"],
+    input: '#email',
+    result: '#r'
+});
+    
+
+
+</script>
+
+</body>
+
+</html>

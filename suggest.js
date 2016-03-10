@@ -135,7 +135,7 @@
         break;
       case 13:
         this.method.close(this.result);
-        selected.classList.remove('selected');
+        selected && selected.classList.remove('selected');
         el.blur();
         break;
     }
