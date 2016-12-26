@@ -1,39 +1,28 @@
 // suggest.js
 // email autocomplete effects
-// not use MVC framework...
+
 (function(global) {
   'use strict';
-
-  function Assist() {}
-
-  Assist.prototype = {
-
-    constructor: Assist,
-
+  var Assist = {
     html: function(el, str) {
       if (1 in arguments) {
         return el.innerHTML = str;
       }
       return el.innerHTML;
     },
-
     attr: function(el, key, value) {
       if (value === undefined) {
         return el.getAttribute(key);
       }
       return el.setAttribute(key, value);
     },
-
     open: function(el) {
       el && el.classList.remove('hide');
     },
-
     close: function(el) {
       el && el.classList.add('hide');
     },
-
-    ellipsis: function(str, max) {
-      max = max || 15;
+    ellipsis: function(str, max = 15) {
       return str.length > max ? str.substring(0, max) + '...' : str;
     }
   }
@@ -46,23 +35,20 @@
     this.result = this.el.querySelector(this.opts.result);
     var bundle = this.input.getAttribute('data-bundle');
     this.list = this.opts.list || (bundle && JSON.parse(bundle));
-    this.method = Object.create(Assist.prototype);
+    this.method = Object.create(Assist);
     this.rendered = false;
     this.listener();
   }
-
   Suggest.prototype.search = function(e) {
     var el = this.input;
     var val = el.value;
     if (!val.length) {
       this.method.close(this.result);
       this.method.html(this.result, '');
-    }
-    else {
+    } else {
       this.render(val);
     }
   };
-
   Suggest.prototype.selectUp = function() {
     var result = this.result;
     var item = result.querySelector('.selected');
@@ -71,15 +57,13 @@
       result.firstChild.classList.remove('selected');
       result.lastChild.classList.add('selected');
       el.value = this.method.attr(result.lastChild, 'data-value');
-    }
-    else {
+    } else {
       item.classList.remove('selected');
       item = item.previousElementSibling;
       item.classList.add('selected');
       el.value = this.method.attr(item, 'data-value');
     }
   };
-
   Suggest.prototype.selectDown = function() {
     var result = this.result;
     var el = this.input;
@@ -88,16 +72,13 @@
       result.lastChild.classList.remove('selected');
       result.firstChild.classList.add('selected');
       el.value = this.method.attr(result.firstChild, 'data-value');
-    }
-    else {
+    } else {
       item.classList.remove('selected');
       item = item.nextElementSibling;
       item.classList.add('selected');
       el.value = this.method.attr(item, 'data-value');
     }
-
   };
-
   Suggest.prototype.clickListen = function(e) {
     var result = this.result;
     var el = this.input;
@@ -108,22 +89,18 @@
     }
     if (el !== (target || document.activeElement)) {
       this.method.close(result);
-    }
-    else {
+    } else {
       this.method.open(result);
     }
     if (result.contains(target)) {
       el.value = this.method.attr(target, 'data-value');
       item && item.classList.remove('selected');
     }
-
   };
-
   Suggest.prototype.resizeListen = function() {
     var result = this.result;
     this.method.close(result);
   };
-
   Suggest.prototype.keydownListen = function(e) {
     var code = e.keyCode;
     var el = this.input;
@@ -140,11 +117,9 @@
         break;
     }
   };
-
   Suggest.prototype.keyupListen = function(e) {
     var code = e.keyCode;
     var el = this.el;
-
     e.stopPropagation();
     e.preventDefault();
     switch (code) {
@@ -162,7 +137,6 @@
         this.search();
     }
   };
-
   Suggest.prototype.htmlStringHandle = function(o) {
     var html = '';
     var method = this.method;
@@ -175,14 +149,12 @@
       method.open(this.result);
       method.html(this.result, html);
       this.rendered = true;
-    }
-    else {
+    } else {
       method.close(this.result);
       method.html(this.result, '');
       this.rendered = false;
     }
   };
-
   Suggest.prototype.render = function(val) {
     var at = val.indexOf('@');
     var atBefore = val.substring(0, at);
@@ -193,7 +165,6 @@
       atAfter: atAfter
     });
   };
-
   Suggest.prototype.listener = function() {
     var el = this.input,
       body = document.body;
@@ -203,7 +174,6 @@
     body.addEventListener('touchstart', this.clickListen.bind(this), false);
     window.addEventListener('resize', this.resizeListen.bind(this), false);
   };
-
   global.Suggest = Suggest;
-
+    
 })(window);
