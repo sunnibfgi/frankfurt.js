@@ -3,6 +3,7 @@
 
 (function(global) {
   'use strict';
+    
   var Assist = {
     html: function(el, str) {
       if (1 in arguments) {
@@ -174,6 +175,7 @@
     body.addEventListener('touchstart', this.clickListen.bind(this), false);
     window.addEventListener('resize', this.resizeListen.bind(this), false);
   };
+    
   global.Suggest = Suggest;
     
 })(window);
