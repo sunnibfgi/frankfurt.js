@@ -116,6 +116,7 @@
         selected && selected.classList.remove('selected');
         el.blur();
         break;
+      default:
     }
   };
   Suggest.prototype.keyupListen = function(e) {
