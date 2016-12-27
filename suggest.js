@@ -4,7 +4,7 @@
 (function(global) {
   'use strict';
     
-  var Assist = {
+  const Assist = {
     html(el, str) {
       if (1 in arguments) {
         return el.innerHTML = str;
