@@ -5,25 +5,25 @@
   'use strict';
     
   var Assist = {
-    html: function(el, str) {
+    html(el, str) {
       if (1 in arguments) {
         return el.innerHTML = str;
       }
       return el.innerHTML;
     },
-    attr: function(el, key, value) {
+    attr(el, key, value) {
       if (value === undefined) {
         return el.getAttribute(key);
       }
       return el.setAttribute(key, value);
     },
-    open: function(el) {
+    open(el) {
       el && el.classList.remove('hide');
     },
-    close: function(el) {
+    close(el) {
       el && el.classList.add('hide');
     },
-    ellipsis: function(str, max = 15) {
+    ellipsis(str, max = 15) {
       return str.length > max ? str.substring(0, max) + '...' : str;
     }
   }
