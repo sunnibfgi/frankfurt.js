@@ -41,8 +41,8 @@
     this.listener();
   }
   Suggest.prototype.search = function(e) {
-    var el = this.input;
-    var val = el.value;
+    var el = this.input,
+        val = el.value;
     if (!val.length) {
       this.method.close(this.result);
       this.method.html(this.result, '');
@@ -51,9 +51,9 @@
     }
   };
   Suggest.prototype.selectUp = function() {
-    var result = this.result;
-    var item = result.querySelector('.selected');
-    var el = this.input;
+    var result = this.result
+    ,item = result.querySelector('.selected')
+    ,el = this.input
     if (!item || item === result.firstChild) {
       result.firstChild.classList.remove('selected');
       result.lastChild.classList.add('selected');
@@ -66,9 +66,10 @@
     }
   };
   Suggest.prototype.selectDown = function() {
-    var result = this.result;
-    var el = this.input;
-    var item = result.querySelector('.selected');
+    var result = this.result
+    ,el = this.input
+    ,item = result.querySelector('.selected')
+    
     if (!item || item === result.lastChild) {
       result.lastChild.classList.remove('selected');
       result.firstChild.classList.add('selected');
@@ -81,10 +82,10 @@
     }
   };
   Suggest.prototype.clickListen = function(e) {
-    var result = this.result;
-    var el = this.input;
-    var target = e.target;
-    var item = result.querySelector('.selected');
+    var result = this.result,
+        el = this.input,
+        target = e.target,
+        item = result.querySelector('.selected')
     if (!this.rendered) {
       return false;
     }
@@ -103,9 +104,9 @@
     this.method.close(result);
   };
   Suggest.prototype.keydownListen = function(e) {
-    var code = e.keyCode;
-    var el = this.input;
-    var selected = this.result.querySelector('.selected');
+    var code = e.keyCode
+    ,el = this.input
+    ,selected = this.result.querySelector('.selected');
     e.stopPropagation();
     switch (code) {
       case 9:
@@ -120,8 +121,8 @@
     }
   };
   Suggest.prototype.keyupListen = function(e) {
-    var code = e.keyCode;
-    var el = this.el;
+    var code = e.keyCode,
+        el = this.el
     e.stopPropagation();
     e.preventDefault();
     switch (code) {
@@ -140,8 +141,8 @@
     }
   };
   Suggest.prototype.htmlStringHandle = function(o) {
-    var html = '';
-    var method = this.method;
+    var html = ''
+    ,method = this.method;
     if (~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
       [].forEach.call(this.list.sort(), function(el) {
         if (!el.indexOf(o.atAfter)) {
@@ -158,9 +159,9 @@
     }
   };
   Suggest.prototype.render = function(val) {
-    var at = val.indexOf('@');
-    var atBefore = val.substring(0, at);
-    var atAfter = val.substring(at);
+    var at = val.indexOf('@')
+    ,atBefore = val.substring(0, at)
+    ,atAfter = val.substring(at);
     this.htmlStringHandle({
       at: at,
       atBefore: atBefore,
