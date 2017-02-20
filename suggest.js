@@ -142,8 +142,9 @@
   };
   Suggest.prototype.htmlStringHandle = function(o) {
     var html = ''
-    ,method = this.method;
-    if (~~o.at && /^[a-zA-Z\d-_]+?$/.test(o.atBefore)) {
+        ,method = this.method
+        ,match = /^[a-zA-Z\d_]+?$/
+    if (~~o.at && match.test(o.atBefore)) {
       [].forEach.call(this.list.sort(), function(el) {
         if (!el.indexOf(o.atAfter)) {
           html += '<li data-value="' + o.atBefore + el + '">' + method.ellipsis(o.atBefore) + el + '<\/li>';
