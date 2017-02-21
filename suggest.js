@@ -3,7 +3,6 @@
 
 (function(global) {
   'use strict';
-    
   const Assist = {
     html(el, str) {
       if (1 in arguments) {
@@ -25,6 +24,11 @@
     },
     ellipsis(str, max = 15) {
       return str.length > max ? str.substring(0, max) + '...' : str;
+    },
+    bind(context, name) {
+      return function() {
+        return context[name].apply(context, arguments);
+      }
     }
   }
 
@@ -42,7 +46,7 @@
   }
   Suggest.prototype.search = function(e) {
     var el = this.input,
-        val = el.value;
+      val = el.value;
     if (!val.length) {
       this.method.close(this.result);
       this.method.html(this.result, '');
@@ -51,9 +55,9 @@
     }
   };
   Suggest.prototype.selectUp = function() {
-    var result = this.result
-    ,item = result.querySelector('.selected')
-    ,el = this.input
+    var result = this.result,
+      item = result.querySelector('.selected'),
+      el = this.input
     if (!item || item === result.firstChild) {
       result.firstChild.classList.remove('selected');
       result.lastChild.classList.add('selected');
@@ -66,10 +70,9 @@
     }
   };
   Suggest.prototype.selectDown = function() {
-    var result = this.result
-    ,el = this.input
-    ,item = result.querySelector('.selected')
-    
+    var result = this.result,
+      el = this.input,
+      item = result.querySelector('.selected')
     if (!item || item === result.lastChild) {
       result.lastChild.classList.remove('selected');
       result.firstChild.classList.add('selected');
@@ -83,9 +86,9 @@
   };
   Suggest.prototype.clickListen = function(e) {
     var result = this.result,
-        el = this.input,
-        target = e.target,
-        item = result.querySelector('.selected')
+      el = this.input,
+      target = e.target,
+      item = result.querySelector('.selected')
     if (!this.rendered) {
       return false;
     }
@@ -104,9 +107,9 @@
     this.method.close(result);
   };
   Suggest.prototype.keydownListen = function(e) {
-    var code = e.keyCode
-    ,el = this.input
-    ,selected = this.result.querySelector('.selected');
+    var code = e.keyCode,
+      el = this.input,
+      selected = this.result.querySelector('.selected');
     e.stopPropagation();
     switch (code) {
       case 9:
@@ -122,7 +125,7 @@
   };
   Suggest.prototype.keyupListen = function(e) {
     var code = e.keyCode,
-        el = this.el
+      el = this.el
     e.stopPropagation();
     e.preventDefault();
     switch (code) {
@@ -141,9 +144,9 @@
     }
   };
   Suggest.prototype.htmlStringHandle = function(o) {
-    var html = ''
-        ,method = this.method
-        ,match = /^[a-zA-Z\d_]+?$/
+    var html = '',
+      method = this.method,
+      match = /^[a-zA-Z\d_]+?$/
     if (~~o.at && match.test(o.atBefore)) {
       [].forEach.call(this.list.sort(), function(el) {
         if (!el.indexOf(o.atAfter)) {
@@ -160,25 +163,31 @@
     }
   };
   Suggest.prototype.render = function(val) {
-    var at = val.indexOf('@')
-    ,atBefore = val.substring(0, at)
-    ,atAfter = val.substring(at);
+    var at = val.indexOf('@'),
+      atBefore = val.substring(0, at),
+      atAfter = val.substring(at);
     this.htmlStringHandle({
       at: at,
       atBefore: atBefore,
       atAfter: atAfter
     });
   };
+  Suggest.prototype.bind = function(method, context) {
+    if (typeof this[method] === 'function') {
+      return this[method].bind(context) || this.method.bind(context, method)
+    }
+  };
+  
   Suggest.prototype.listener = function() {
     var el = this.input,
       body = document.body;
-    el.addEventListener('keydown', this.keydownListen.bind(this), false);
-    el.addEventListener('keyup', this.keyupListen.bind(this), false);
-    body.addEventListener('click', this.clickListen.bind(this), false);
-    body.addEventListener('touchstart', this.clickListen.bind(this), false);
-    window.addEventListener('resize', this.resizeListen.bind(this), false);
+    el.addEventListener('keydown', this.bind('keydownListen', this), false);
+    el.addEventListener('keyup', this.bind('keyupListen', this), false);
+    body.addEventListener('click', this.bind('clickListen', this), false);
+    body.addEventListener('touchstart', this.bind('clickListen', this), false);
+    window.addEventListener('resize', this.bind('resizeListen', this), false);
   };
-    
+  
   global.Suggest = Suggest;
-    
+  
 })(window);
